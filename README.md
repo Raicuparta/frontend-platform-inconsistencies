@@ -20,7 +20,9 @@ Android tries to use as much of the screen as possible, covering the address bar
 
 Will the *Father of the Nation* look the other way? Not wanting to take any chances, you take this matter into your own hands. You want something that can be filtered on mobile, and makes better use of screen real estate. 
 
-On desktop platforms this is not too hard to achieve: just a custom dropdown with a text input for filtering. For mobile, you'll need something different. This is your plan:
+On desktop platforms this is not too hard to achieve: just a custom dropdown with a text input for filtering. For mobile, you'll need something different. Let's focus on the mobile version, and presume that you'll have some way to pick the correct implementation depending on the platform.
+
+This is your plan for mobile:
 
 <img src="https://i.imgur.com/xmPAh3U.png" width=250px>
 
