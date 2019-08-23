@@ -28,7 +28,7 @@ A full-screen modal with a fixed text input at the top for filtering, and a scro
 
 ```html
 <button onclick="openModal()">Open Modal</button>
-<div class="modal" id="filter-modal">
+<div class="modal" id="modal">
   <div class="modal-header">
     <input type="text" id="filter-input">
     <button onclick="closeModal()">X</button>
@@ -60,13 +60,16 @@ A full-screen modal with a fixed text input at the top for filtering, and a scro
 }
 ```
 ```javascript
+const modal = document.getElementById('modal')
+const filterInput = document.getElementById('filter-input')
+
 function openModal() {
-  document.getElementById('filter-modal').classList.add('show')
-  document.getElementById('filter-input').focus()
+  modal.classList.add('show')
+  filterInput.focus()
 }
 
 function closeModal() {
-  document.getElementById('filter-modal').classList.remove('show')
+  modal.classList.remove('show')
 }
 ```
 The important bits:
@@ -233,7 +236,7 @@ So close! Android is behaving well again, while iOS blasts the modal to outer sp
 
 ```javascript
 function openModal() {
-  filterModal.classList.add('show')
+  modal.classList.add('show')
 
   // new
   setTimeout(() => {
@@ -261,4 +264,4 @@ And it works! You're finally done. You feel proud of your work, knowing your fam
 
 <hr>
 
-[Find the full code for the modal here](https://github.com/Raicuparta/frontend-playform-inconsistencies/tree/master/page)
+[Find the full code for the modal here](https://github.com/Raicuparta/frontend-platform-inconsistencies/tree/master/page)
