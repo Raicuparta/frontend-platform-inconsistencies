@@ -29,7 +29,7 @@ This is your plan for mobile:
 A full-screen modal with a fixed text input at the top for filtering, and a scrollable list of items below it. Your first instinct tells you the implementation should go like this:
 
 ```html
-<button onclick="openModal()">Open Modal</button>
+<button onclick="openModal()">Select a title</button>
 <div class="modal" id="modal">
   <div class="modal-header">
     <input type="text" id="filter-input">
@@ -213,7 +213,9 @@ modalBody.addEventListener('scroll', menuScroll)
 
 You push the list's scroll position one pixel away from the edge when the scroll reaches the bottom. This way, the outer scroll is never triggered.
 
-Alright, so with all this, you finally reach a pretty solid solution. There is just one thing you'd like to improve: the modal suddenly covering the screen might be a bit jarring. A simple transition animation could make it easier to follow. Perhaps you could slide the modal from the bottom of the screen? Easy to achieve with CSS transitions:
+The solution is already pretty solid, but there is one more thing you'd like to improve. The modal suddenly covering the screen might be a bit jarring. What if His Excellency isn't paying attention and gets spooked? Who will take care of your kids?
+
+A simple transition animation could make it easier to follow. Perhaps you could slide the modal from the bottom of the screen? Easy to achieve with CSS transitions:
 
 ```css
 .modal {
@@ -252,10 +254,10 @@ Android | iOS
 :-------------------------:|:-------------------------:
 <img src="https://i.imgur.com/FbsjydM.gif" width=250px> | <img src="https://i.imgur.com/ljUJLin.gif" width=250px>
 
-iOS doesn't seem to be focusing the input at all. Of course, it couldn't be that easy. **iOS only allows `focus` events to happen as a direct result of a user interaction**, and `setTimeout` isn't that. Your workaround is to turn the "open modal" button into a text input:
+iOS doesn't seem to be focusing the input at all. Of course, it couldn't be that easy. **iOS only allows `focus` events to happen as a direct result of a user interaction**, and `setTimeout` isn't that. Your workaround is to turn the "Select a title" button into a text input:
 
 ```html
-<input onfocus="openModal()" readonly>Open Modal</input>
+<input onfocus="openModal()" readonly=true placeholder="Select a title">
 ```
 
 The `readonly` hides the caret and makes sure the user can't type anything into this new input during the transition. This way, iOS will show the keyboard based on the first `focus` event, allowing you to change the focus to the second input after the transition is done.
