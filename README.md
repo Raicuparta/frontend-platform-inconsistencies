@@ -1,28 +1,28 @@
 You're a North Korean engineer who's been selected to develop a new government project. It's an HTML form, which North Korean political leaders will fill in for `[REDACTED]` purposes.
 
-One of the fields requires the user to select the title by witch they prefer to be addressed. [Since the list can get pretty long](https://en.wikipedia.org/wiki/List_of_Kim_Jong-il's_titles), you decide to go for your good old `<select>` element. It looks like this:
+One of the fields requires the user to select the title by which they prefer to be addressed. [Since the list can get pretty long](https://en.wikipedia.org/wiki/List_of_Kim_Jong-il's_titles), you decide to go for your good old `<select>` element. It looks like this:
 
 Windows (Chrome) | macOS (Safari)
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/WCmcByj.gif" width=400px> | <img src="https://i.imgur.com/VGEO2a1.gif" width=400px>
+<img src="https://i.imgur.com/WCmcByj.gif" width=250px> | <img src="https://i.imgur.com/VGEO2a1.gif" width=250px>
 
 Nothing out of the ordinary, perfectly acceptable in most cases.
 
-You know that **`<select>` has that kind of "search" that jumps to the items as you type**. But you're not sure if the *Great Leader* is aware of this. You feel like it's not too big of a deal if the list is in alphabetical order, which you made sure to be the case.
+You know that **`<select>` has that kind of "search" that jumps to the items as you type**. But you're not sure if the *Great Leader* is aware of this. You feel like this is not too big of a deal, as long as the list is in alphabetical order.
 
 What about mobile?
 
 Android (Chrome) | iOS (Safari)
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/LPYPNZE.gif" width=400px> | <img src="https://i.imgur.com/H045TT6.gif" width=400px>  
+<img src="https://i.imgur.com/LPYPNZE.gif" width=250px> | <img src="https://i.imgur.com/H045TT6.gif" width=250px>  
 
-Android tries to use as much of the screen as possible, covering the address bar. On iOS, the small number of visible items makes for an awful experience with larger lists. Both of them suffer from a lack of search / filter feature.
+Android tries to use as much of the screen as possible, covering the address bar. On iOS, the small number of visible items makes for an awful experience with larger lists. Both of them lack a way to search or filter list items.
 
 Will the *Father of the Nation* look the other way? Not wanting to take any chances, you take this matter into your own hands. You want something that can be filtered on mobile, and makes better use of screen real estate. 
 
 On desktop platforms this is not too hard to achieve: just a custom dropdown with a text input for filtering. For mobile, you'll need something different. This is your plan:
 
-<img src="https://i.imgur.com/xmPAh3U.png" width=300px>
+<img src="https://i.imgur.com/xmPAh3U.png" width=250px>
 
 A full-screen modal with a fixed text input at the top for filtering, and a scrollable list of items below it. Your first instinct tells you the implementation should go like this:
 
@@ -30,12 +30,12 @@ A full-screen modal with a fixed text input at the top for filtering, and a scro
 <button onclick="openModal()">Open Modal</button>
 <div class="modal" id="filter-modal">
   <div class="modal-header">
-    <input type="text" class="filter" id="filter-input">
-    <button class="close" onclick="closeModal()">X</button>
+    <input type="text" id="filter-input">
+    <button onclick="closeModal()">X</button>
   </div>
   <div class="modal-body">
-    <button class="item">Item 1</button>
-    <button class="item">Item 2</button>
+    <button>Item 1</button>
+    <button>Item 2</button>
     <!-- remaining items... -->
   </div>
 </div>
@@ -81,33 +81,35 @@ It looks like this:
 
 Android (Chrome) | iOS (Safari)
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/yk0arYW.gif" width=400px> | <img src="https://i.imgur.com/ng7c3ZU.gif" width=400px>
+<img src="https://i.imgur.com/yk0arYW.gif" width=250px> | <img src="https://i.imgur.com/ng7c3ZU.gif" width=250px>
 
-Looks good on iOS, but **on Android the last items are being cut off**. Some mobile browsers hide the address bar when the user scrolls down. This changes the visible viewport height, but not the meaning of `100vh`. So `100vh` actually a bit taller than what is initially visible. 
+Looks good on iOS, but **on Android the last items are being cut off**. Why?
 
-Your modal has `position: fixed` , you don't need to use `vh` units. `height: 100%` will fill the available height correctly:
+Some mobile browsers hide the address bar when the user scrolls down. This changes the visible viewport height, but not the meaning of `100vh`. So `100vh` actually a bit taller than what is initially visible. 
 
-<img src="https://i.imgur.com/LBH8Mq6.gif" width=400px>
+Your modal has `position: fixed` , so you don't need to use `vh` units. `height: 100%` will fill the available height correctly:
+
+<img src="https://i.imgur.com/LBH8Mq6.gif" width=250px>
 
 Neat! This is already an improvement from the native versions of `<select>` on mobile. Now you  need to implement the filter behavior.  It's a good idea to `focus()` the filter input as soon as the modal opens, so the keyboard pops up and the user can start typing right away. Let's see how it looks:
 
 Android (Chrome) | iOS (Safari)
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/gGFGVMK.gif" width=400px> | <img src="https://i.imgur.com/Ok9z6as.gif" width=400px>
+<img src="https://i.imgur.com/gGFGVMK.gif" width=250px> | <img src="https://i.imgur.com/Ok9z6as.gif" width=250px>
 
 This time everything looks fine on Android. On iOS, the modal header is scrolled out of bounds once you try to scroll the list. What's going on?
 
 iOS without Keyboard | iOS with Keyboard
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/LLNaUMD.png" width=400px> | <img src="https://i.imgur.com/xitpo2n.png" width=400px>
+<img src="https://i.imgur.com/LLNaUMD.png" width=250px> | <img src="https://i.imgur.com/xitpo2n.png" width=250px>
 
-When you filter by "Leader", the list becomes small enough to fit the screen without scrolling. On Android, opening the keyboard shrinks the viewport down to the visible area. But **on iOS, the viewport size remains unchanged; it is just being covered by the keyboard**. iOS lets you scroll the page while the keyboard is open, revealing that missing portion of the page. This behavior can break `position: fixed` elements like yours.
+When you filter by "Leader", the list becomes small enough to fit the screen without scrolling, but only if the keyboard isn't visible. On Android, opening the keyboard shrinks the viewport down to the visible area. But **on iOS, the viewport size remains unchanged; it is just being covered by the keyboard**. iOS lets you scroll the page while the keyboard is open, revealing that missing portion of the page. This behavior can break `position: fixed` elements like yours.
 
 To make matters worse, there's no way to know how tall the keyboard will be, or if it is there at all (the user can be using a hardware keyboard). No clever CSS trick can save you this time.
 
 So you need to have a scrollable list, where all the items are accessible, without knowing if an arbitrary portion of the lower part of screen is visible or not. This is your workaround:
 
-<img src="https://i.imgur.com/VZPJge6.gif" width=400px>
+<img src="https://i.imgur.com/VZPJge6.gif" width=250px>
 
 You add a spacer at the bottom of the list (highlighted in green for visibility). The height of this spacer is the height of the list area, minus one element. This way, it's always possible to scroll all the way to the bottom, bringing the last element to the very top of the list.
 
@@ -184,13 +186,13 @@ function handleTouchMove (event) {
 
 So yes, particularly in React, this workaround requires a workaround.
 
-As I write this, [React's event system is being rewritten](https://github.com/facebook/react/issues/15257), so this may no longer be relevant by the time you read this article.
+As I write this, [React's event system is being rewritten](https://github.com/facebook/react/issues/15257), so the problem may no longer exist by the time you read this article.
 
 Now back to *your* problem.
 
 <hr>
 
-There is one more way to scroll your hopes and dreams away. If the user insists on scrolling when there are no more items to show, the viewport is scrolled away again. None of this fazes you anymore, you just jam another workaround in there:
+There is one more way to scroll your hopes and dreams away. If the user insists on scrolling when there are no more items to show, the viewport can be scrolled up. None of this fazes you anymore, you just jam another workaround in there:
 
 ```javascript
 const modalBody = document.getElementById('modal-body')
@@ -225,9 +227,9 @@ Now, instead of initializing your modal with `display: none` and `top: 0`, you s
 
 Android (Chrome) | iOS (Safari)
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/nEOQ46m.gif" width=400px> | <img src="https://i.imgur.com/spsjQGw.gif" width=400px>
+<img src="https://i.imgur.com/nEOQ46m.gif" width=250px> | <img src="https://i.imgur.com/spsjQGw.gif" width=250px>
 
-So close! Android behaving well again, while iOS blasts the modal to outer space as soon as it is visible. So it seems like toggling the keyboard while the modal is being animated isn't a good idea. You feel pretty confident that showing the keyboard only after the animation is done should fix it:
+So close! Android is behaving well again, while iOS blasts the modal to outer space as soon as it is visible. It seems like toggling the keyboard while the modal is being animated isn't a good idea. You feel pretty confident that showing the keyboard only after the animation is done should fix it:
 
 ```javascript
 function openModal() {
@@ -243,9 +245,9 @@ Simple enough. You wait for 500ms, the same as the transition duration, and only
 
 Android | iOS
 :-------------------------:|:-------------------------:
-<img src="https://i.imgur.com/FbsjydM.gif" width=400px> | <img src="https://i.imgur.com/ljUJLin.gif" width=400px>
+<img src="https://i.imgur.com/FbsjydM.gif" width=250px> | <img src="https://i.imgur.com/ljUJLin.gif" width=250px>
 
-iOS doesn't seem to be focusing the input at all. Of course it couldn't be that easy. **iOS only allows `focus` events to happen as a direct result of a user interaction**, and `setTimeout` isn't that. Your workaround is to turn the "open modal" button into a text input:
+iOS doesn't seem to be focusing the input at all. Of course, it couldn't be that easy. **iOS only allows `focus` events to happen as a direct result of a user interaction**, and `setTimeout` isn't that. Your workaround is to turn the "open modal" button into a text input:
 
 ```html
 <input onfocus="openModal()" readonly>Open Modal</input>
@@ -253,7 +255,7 @@ iOS doesn't seem to be focusing the input at all. Of course it couldn't be that 
 
 The `readonly` hides the caret and makes sure the user can't type anything into this new input during the transition. This way, iOS will show the keyboard based on the first `focus` event, allowing you to change the focus to the second input after the transition is done.
 
-<img src="https://i.imgur.com/ZXElGGp.gif" width=400px>
+<img src="https://i.imgur.com/ZXElGGp.gif" width=250px>
 
 And it works! You're finally done. You feel proud of your work, knowing your family will live at least another couple months.
 
