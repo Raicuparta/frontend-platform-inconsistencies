@@ -96,7 +96,9 @@ Your modal has `position: fixed` , so you don't need to use `vh` units. `height
 
 <img src="https://i.imgur.com/LBH8Mq6.gif" width=250px>
 
-Neat! This is already an improvement from the native versions of `<select>` on mobile. Now you  need to implement the filter behavior.  It's a good idea to `focus()` the filter input as soon as the modal opens, so the keyboard pops up and the user can start typing right away. Let's see how it looks:
+Neat! This is already an improvement from the native versions of `<select>` on mobile. Now you need to implement the filter behavior.
+
+You're pretty sure that your *Guiding Sun Ray* wouldn't want to go through the trouble of having to touch the filter input every time after opening the modal. So you should `focus()` the filter input as soon as the modal opens. This way, the keyboard pops up and the user can start typing right away. Let's see how it looks:
 
 Android (Chrome) | iOS (Safari)
 :-------------------------:|:-------------------------:
@@ -213,7 +215,7 @@ modalBody.addEventListener('scroll', menuScroll)
 
 You push the list's scroll position one pixel away from the edge when the scroll reaches the bottom. This way, the outer scroll is never triggered.
 
-The solution is already pretty solid, but there is one more thing you'd like to improve. The modal suddenly covering the screen might be a bit jarring. What if His Excellency isn't paying attention and gets spooked? Who will take care of your kids?
+The solution is already pretty solid, but there is one more thing you'd like to improve. The modal suddenly covering the screen might be a bit jarring. What if *His Excellency* isn't paying attention and gets spooked? Who will take care of your kids?
 
 A simple transition animation could make it easier to follow. Perhaps you could slide the modal from the bottom of the screen? Easy to achieve with CSS transitions:
 
