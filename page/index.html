@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modal Select</title>
+  <link href="style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <input
+    class="open-modal-button"
+    onfocus="openModal()"
+    placeholder="Select Title"
+    id="modal-input"
+    readonly
+  >
+  <img
+    class="search-icon"
+    src="search.svg"
+  >
+  <div
+    class="modal"
+    id="filter-modal"
+  >
+    <div class="modal-header" ontouchmove="handleHeaderTouchMove(event)">
+      <input
+        class="filter-input"
+        id="filter-input"
+        type="text"
+        placeholder="Filter Titles"
+        oninput="handleFilterChange(this.value)"
+      >
+      <img
+        class="search-icon"
+        src="search.svg"
+      />
+      <img
+        class="close-icon"
+        src="close.svg"
+        onclick="closeModal()"
+      />
+    </div>
+    <div
+      class="modal-body"
+      id="modal-body"
+      onscroll="handleModalScroll()"
+    >
+      <ol
+        class="list"
+        id="item-list"
+      >
+        <!-- Items will be inserted here -->
+      </ol>
+      <div class="list-spacer"></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="titles.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</body>
